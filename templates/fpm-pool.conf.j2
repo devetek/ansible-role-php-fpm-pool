@@ -1,13 +1,20 @@
 {{ ansible_managed | comment(decoration='; ') }}
 
+; https://www.php.net/manual/en/install.fpm.configuration.php
+
+[global]
+
+error_log = {{ item.pool_global_error_log | mandatory }}
+pid = {{ item.pool_pid | mandatory }}
+
 [{{ item.pool_name | mandatory }}]
 listen = {{ item.pool_listen | mandatory }}
 listen.allowed_clients = {{ item.pool_listen_allowed_clients | default('127.0.0.1', true) }}
-user = {{ php_fpm_pool_user }}
-group = {{ php_fpm_pool_group }}
+user = {{ item.pool_user | default(phpfpm_pool_user) }}
+group = {{ item.pool_group | default(phpfpm_pool_group) }}
 
-listen.owner = {{ php_fpm_pool_user }}
-listen.group = {{ php_fpm_pool_group }}
+listen.owner = {{ item.pool_user | default(phpfpm_pool_user) }}
+listen.group = {{ item.pool_group | default(phpfpm_pool_group) }}
 
 pm = {{ item.pool_pm | default('dynamic', true) }}
 pm.max_children = {{ item.pool_pm_max_children | default(50, true) }}
@@ -15,3 +22,10 @@ pm.start_servers = {{ item.pool_pm_start_servers | default(5, true) }}
 pm.min_spare_servers = {{ item.pool_pm_min_spare_servers | default(5, true) }}
 pm.max_spare_servers = {{ item.pool_pm_max_spare_servers | default(5, true) }}
 pm.max_requests = {{ item.pool_pm_max_requests | default(500, true) }}
+
+php_admin_flag[display_errors] = {{ item.pool_php_admin_flag_display_errors | default('off') }}
+php_admin_flag[log_errors] = {{ item.pool_php_admin_flag_log_errors | default('off') }}
+php_admin_value[error_log] = {{ item.pool_php_admin_value_error_log | mandatory }}
+
+slowlog={{ item.pool_slowlog | mandatory }}
+request_slowlog_timeout={{ item.pool_request_slowlog_timeout | default('10s') }}

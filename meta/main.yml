@@ -1,5 +1,5 @@
 galaxy_info:
-  role_name: php_fpm_pool
+  role_name: phpfpm_pool
   namespace: devetek
   author: prakasa1904
   description: Roles to create PHP FPM Pools Configuration

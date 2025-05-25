@@ -1,39 +1,40 @@
 ---
-- name: Define php_fpm_pool_conf_path.
+- name: Define phpfpm_pool_conf_path.
   set_fact:
-    php_fpm_pool_conf_path: "{{ __php_fpm_pool_conf_path }}"
-  when: php_fpm_pool_conf_path is not defined
+    phpfpm_pool_conf_path: "{{ __phpfpm_pool_conf_path }}"
+  when: phpfpm_pool_conf_path is not defined
 
-- name: Define php_fpm_pool_user.
+- name: Define phpfpm_pool_user.
   set_fact:
-    php_fpm_pool_user: "{{ __php_fpm_pool_user }}"
-  when: php_fpm_pool_user is not defined
+    phpfpm_pool_user: "{{ __phpfpm_pool_user }}"
+  when: phpfpm_pool_user is not defined
 
-- name: Define php_fpm_pool_group.
+- name: Define phpfpm_pool_group.
   set_fact:
-    php_fpm_pool_group: "{{ __php_fpm_pool_group }}"
-  when: php_fpm_pool_group is not defined
+    phpfpm_pool_group: "{{ __phpfpm_pool_group }}"
+  when: phpfpm_pool_group is not defined
 
-- name: Stat php_fpm_pool_conf_path
+- name: Stat phpfpm_pool_conf_path
   stat:
-    path: "{{ php_fpm_pool_conf_path | dirname }}"
-  register: php_fpm_pool_conf_path_dir_stat
+    path: "{{ phpfpm_pool_conf_path | dirname }}"
+  register: phpfpm_pool_conf_path_dir_stat
 
 - name: Ensure the default pool directory exists.
   file:
-    path: "{{ php_fpm_pool_conf_path | dirname }}"
+    path: "{{ phpfpm_pool_conf_path | dirname }}"
     state: directory
-    owner: "{{ php_fpm_pool_user | default('root', true) }}"
-    group: "{{ php_fpm_pool_group | default('root', true) }}"
+    owner: "{{ phpfpm_pool_user | default('root', true) }}"
+    group: "{{ phpfpm_pool_group | default('root', true) }}"
     mode: 0755
-  when: php_fpm_pool_conf_path_dir_stat.stat.islnk is not defined
+    force: true
+  when: phpfpm_pool_conf_path_dir_stat.stat.islnk is not defined
 
 - name: Create fpm pools.
   template:
     src: "{{ item.pool_template | default('fpm-pool.conf.j2', true) }}"
-    dest: "{{ php_fpm_pool_conf_path | dirname }}/{{ item.pool_name }}.conf"
-    owner: root
-    group: root
+    dest: "{{ phpfpm_pool_conf_path | dirname }}/{{ item.pool_name }}.conf"
+    owner: "{{ phpfpm_pool_user | default('root', true) }}"
+    group: "{{ phpfpm_pool_user | default('root', true) }}"
     mode: 0644
     force: true
-  loop: "{{ php_fpm_pools | default([], true) }}"
+  loop: "{{ phpfpm_pools | default([], true) }}"

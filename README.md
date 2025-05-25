@@ -19,29 +19,29 @@ List of variables in ansible-role-php-fpm-config:
 ```sh
 ---
 # PHP-FPM pool default configuration.
-php_fpm_pool_conf_path: "/etc/php-fpm.d/dpanel.conf"
-php_fpm_pool_user: "www-data"
-php_fpm_pool_group: "www-data"
-php_fpm_listen: "127.0.0.1:9000"
-php_fpm_listen_allowed_clients: "127.0.0.1"
-php_fpm_pm_max_children: 50
-php_fpm_pm_start_servers: 5
-php_fpm_pm_min_spare_servers: 5
-php_fpm_pm_max_spare_servers: 5
-php_fpm_pm_max_requests: 0
+phpfpm_pool_conf_path: "/etc/php-fpm.d/dpanel.conf"
+phpfpm_pool_user: "www-data"
+phpfpm_pool_group: "www-data"
+phpfpm_listen: "127.0.0.1:9000"
+phpfpm_listen_allowed_clients: "127.0.0.1"
+phpfpm_pm_max_children: 50
+phpfpm_pm_start_servers: 5
+phpfpm_pm_min_spare_servers: 5
+phpfpm_pm_max_spare_servers: 5
+phpfpm_pm_max_requests: 0
 
 # PHP-FPM pools configuration.
-php_fpm_pools:
+phpfpm_pools:
   - pool_name: dpanel
     pool_template: www.conf.j2
-    pool_listen: "{{ php_fpm_listen }}"
-    pool_listen_allowed_clients: "{{ php_fpm_listen_allowed_clients }}"
+    pool_listen: "{{ phpfpm_listen }}"
+    pool_listen_allowed_clients: "{{ phpfpm_listen_allowed_clients }}"
     pool_pm: dynamic
-    pool_pm_max_children: "{{ php_fpm_pm_max_children }}"
-    pool_pm_start_servers: "{{ php_fpm_pm_start_servers }}"
-    pool_pm_min_spare_servers: "{{ php_fpm_pm_min_spare_servers }}"
-    pool_pm_max_spare_servers: "{{ php_fpm_pm_max_spare_servers }}"
-    pool_php_fpm_pm_max_requests: "{{ php_fpm_pm_max_requests }}"
+    pool_pm_max_children: "{{ phpfpm_pm_max_children }}"
+    pool_pm_start_servers: "{{ phpfpm_pm_start_servers }}"
+    pool_pm_min_spare_servers: "{{ phpfpm_pm_min_spare_servers }}"
+    pool_pm_max_spare_servers: "{{ phpfpm_pm_max_spare_servers }}"
+    pool_phpfpm_pm_max_requests: "{{ phpfpm_pm_max_requests }}"
 ```
 
 Dependencies
