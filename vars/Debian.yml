@@ -1,5 +1,5 @@
 ---
-__php_fpm_pool_conf_path: "{{ __php_fpm_conf_path }}/pool.d/www.conf"
+__php_fpm_pool_conf_path: "/etc/php-fpm.d/www.conf"
 
 __php_fpm_pool_user: www-data
 __php_fpm_pool_group: www-data
